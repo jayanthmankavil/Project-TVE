@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video Text Extractor</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('input[type="radio"][name="uploadType"]').change(function() {
+                $('.upload-method').hide();
+                $('#' + $(this).val()).show();
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Upload or Enter Video for Text Extraction</h1>
+        <form method="POST" enctype="multipart/form-data" class="mt-4">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="uploadType" id="uploadFile" value="fileUpload" checked>
+                <label class="form-check-label" for="uploadFile">
+                    Upload Video File
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="uploadType" id="uploadURL" value="urlUpload">
+                <label class="form-check-label" for="uploadURL">
+                    Enter Video URL
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="uploadType" id="uploadYouTube" value="youtubeUpload">
+                <label class="form-check-label" for="uploadYouTube">
+                    Enter YouTube Link
+                </label>
+            </div>
+
+            <div id="fileUpload" class="upload-method mt-3">
+                <div class="form-group">
+                    <input type="file" name="file" id="file" class="form-control-file">
+                </div>
+            </div>
+
+            <div id="urlUpload" class="upload-method mt-3" style="display:none;">
+                <div class="form-group">
+                    <input type="text" name="url" id="url" class="form-control">
+                </div>
+            </div>
+
+            <div id="youtubeUpload" class="upload-method mt-3" style="display:none;">
+                <div class="form-group">
+                    <input type="text" name="youtube_url" id="youtube_url" class="form-control">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Process Video</button>
+        </form>
+
+        <div class="mt-5">
+            <h2>Extracted Texts</h2>
+            {% if extracted_texts %}
+                {% for text in extracted_texts %}
+                    <div class="form-group">
+                        <textarea class="form-control" rows="5" readonly>{{ text }}</textarea>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No texts extracted.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
